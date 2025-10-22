@@ -1,4 +1,4 @@
-k# Base na imagem oficial do fork do Chatwoot
+# Base na imagem oficial do fork do Chatwoot
 FROM ghcr.io/fazer-ai/chatwoot:latest
 
 # Copia apenas o arquivo de controller alterado
