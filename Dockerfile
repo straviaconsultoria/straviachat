@@ -35,44 +35,36 @@ COPY --from=builder /app/public/packs /app/public/packs
 # -----------------------------
 # Variáveis de ambiente reais
 # -----------------------------
-
-# Configurações básicas
 ENV RAILS_ENV=production \
     NODE_ENV=production \
     LOG_LEVEL=debug \
     RAILS_LOG_TO_STDOUT=true \
     RAILS_SERVE_STATIC_FILES=true \
-    DISABLE_AI_AGENTS=false \
-    SKIP_AI_AGENT_SDK_INIT=true \
-    RAILS_SKIP_ASSET_INITIALIZATION=false \
-    RAILS_SKIP_DATABASE_ENVIRONMENT_CHECK=false
+    SECRET_KEY_BASE=1I5hjKlNPW2k2p2jzhMG4YnkAdkhyrybBBfIgaAxKU8gbXhBx7E20K21fM1Y8YaU \
+    DATABASE_URL=postgres://MW7vPG17HjwCCQaK:ssjU8fOcsjl3xTvzoJASS8ZGIcy1S8lu@postgres:5432/chatwoot_production \
+    REDIS_URL=redis://default:muJaC79tReLegzdZnfwfzGs1SznC5Y4O@redis:6379 \
+    FRONTEND_URL=https://jhorplay.straviachat.com \
+    SERVICE_URL_RAILS=https://jhorplay.straviachat.com \
+    SERVICE_FQDN_RAILS=jhorplay.straviachat.com \
+    ENABLE_CUSTOM_CSS=true \
+    CUSTOM_CSS_URL=http://72.60.255.85:8081/hide-phone.css \
+    DISABLE_AI_AGENTS=true \
+    SKIP_AI_AGENT_SDK_INIT=true
 
-# Banco de dados
+# -----------------------------
+# Correção de variáveis PG*
+# -----------------------------
 ENV PGHOST=postgres \
     PGPORT=5432 \
-    PGUSER=${SERVICE_USER_POSTGRES} \
-    PGPASSWORD=${SERVICE_PASSWORD_POSTGRES} \
-    POSTGRES_DB=chatwoot_production \
-    DATABASE_URL=postgres://${SERVICE_USER_POSTGRES}:${SERVICE_PASSWORD_POSTGRES}@postgres:5432/chatwoot_production
+    PGUSER=MW7vPG17HjwCCQaK \
+    PGPASSWORD=ssjU8fOcsjl3xTvzoJASS8ZGIcy1S8lu \
+    POSTGRES_HOST=postgres \
+    POSTGRES_PORT=5432 \
+    POSTGRES_USERNAME=MW7vPG17HjwCCQaK \
+    POSTGRES_PASSWORD=ssjU8fOcsjl3xTvzoJASS8ZGIcy1S8lu \
+    POSTGRES_DB=chatwoot_production
 
-# Redis
-ENV REDIS_URL=redis://default:${SERVICE_PASSWORD_REDIS}@redis:6379
-
-# Rails secrets
-ENV SECRET_KEY_BASE=${SERVICE_PASSWORD_64_SECRETKEYBASE}
-
-# URLs principais
-ENV FRONTEND_URL=https://jhorplay.straviachat.com \
-    SERVICE_URL_RAILS=https://jhorplay.straviachat.com \
-    ASSET_CDN_HOST=https://jhorplay.straviachat.com
-
-# Configurações adicionais
-ENV ENABLE_CUSTOM_CSS=true \
-    CUSTOM_CSS_URL=http://72.60.255.85:8081/hide-phone.css \
-    BAILEYS_LOG_LEVEL=error \
-    BAILEYS_PROVIDER_DEFAULT_CLIENT_NAME=Chatwoot \
-    BRAND_ASSETS_URL= \
-    MAILER_SENDER_EMAIL= \
-    RESEND_API_KEY=
-
-# Entrypoint padrão do Chatwoot já incluso
+# -----------------------------
+# Ponto de entrada padrão
+# -----------------------------
+CMD ["/app/docker/entrypoints/rails.sh"]
