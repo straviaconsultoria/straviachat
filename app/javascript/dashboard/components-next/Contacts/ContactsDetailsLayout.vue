@@ -100,11 +100,16 @@ const closeMobileSidebar = () => {
                 :disabled="isUpdating"
                 @click="toggleBlock"
               />
-              <VoiceCallButton
-                :phone="selectedContact?.phoneNumber"
-                :label="$t('CONTACT_PANEL.CALL')"
-                size="sm"
-              />
+<template v-if="currentUser?.role === 'administrator'">
+  <VoiceCallButton
+    :phone="selectedContact?.phoneNumber"
+    :label="$t('CONTACT_PANEL.CALL')"
+    size="sm"
+  />
+</template>
+<template v-else>
+  <span class="text-n-slate-11 text-sm">Telefone oculto</span>
+</template>
               <ComposeConversation :contact-id="contactId">
                 <template #trigger="{ toggle }">
                   <Button
